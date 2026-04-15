@@ -1,0 +1,13 @@
+# Unreal Engine 默认忽略
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+*.sln
+*.opendb
+*.log
+
+# 其他通用忽略
+.vs/
+.idea/
+.vscode/
