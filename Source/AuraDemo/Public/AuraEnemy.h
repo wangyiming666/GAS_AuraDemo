@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class AURADEMO_API AAuraEnemy : public AAuraCharacter
+class AURADEMO_API AAuraEnemy : public AAuraCharacterBase
 {
 	GENERATED_BODY()
 	
