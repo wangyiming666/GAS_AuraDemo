@@ -19,6 +19,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	virtual void PlayerTick(float DeltaTime) override;
 private:
 	UPROPERTY(EditAnywhere,Category="Input")
 	TObjectPtr<class UInputMappingContext> AuraContext;
@@ -26,4 +27,9 @@ private:
 	UPROPERTY(EditAnywhere,Category="Input")
 	TObjectPtr<class UInputAction> MoveAction;
 	void Move(const struct FInputActionValue& InputActionValue);
+
+	void CursorTrace();
+
+	TWeakObjectPtr<AActor> CurrentEnemy;
+	TWeakObjectPtr<AActor> LastEnemy;
 };

@@ -4,6 +4,7 @@
 #include "AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "AuraDemo/Interaction/EnemyInterface.h"
 #include "GameFramework/Character.h"
 
 AAuraPlayerController::AAuraPlayerController()
@@ -34,6 +35,12 @@ void AAuraPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAuraPlayerController::Move);
 }
 
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+	CursorTrace();
+}
+
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D MovementValue = InputActionValue.Get<FVector2D>();
@@ -45,5 +52,41 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	{
 		ControlCharacter->AddMovementInput(FrontDirection, MovementValue.Y);
 		ControlCharacter->AddMovementInput(RightDirection, MovementValue.X);
+	}
+}
+
+void AAuraPlayerController::CursorTrace()
+{
+	FHitResult HitResult;
+	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+	if (!HitResult.bBlockingHit) return;
+
+	LastEnemy = CurrentEnemy;
+	CurrentEnemy = HitResult.GetActor();
+
+	IEnemyInterface* LastEnemyInterface = IsValid(LastEnemy.Get()) ? Cast<IEnemyInterface>(LastEnemy.Get()) : nullptr;
+	IEnemyInterface* CurrentEnemyInterface = IsValid(CurrentEnemy.Get()) ? Cast<IEnemyInterface>(CurrentEnemy.Get()) : nullptr;
+
+	if (LastEnemyInterface == nullptr)
+	{
+		if (CurrentEnemyInterface != nullptr)
+		{
+			CurrentEnemyInterface->HighlightActor();
+		}
+	}
+	else
+	{
+		if (CurrentEnemyInterface == nullptr)
+		{
+			LastEnemyInterface->UnHighlightActor();
+		}
+		else
+		{
+			if (LastEnemy.Get() != CurrentEnemy.Get())
+			{
+				LastEnemyInterface->UnHighlightActor();
+				CurrentEnemyInterface->HighlightActor();
+			}
+		}
 	}
 }
