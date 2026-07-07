@@ -14,10 +14,10 @@ UCLASS()
 class AURADEMO_API AAuraEnemy : public AAuraCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
-public:	
+public:
+	AAuraEnemy();
+
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
-private:
-	bool bHighlighted = false;
-	
+
 };
