@@ -3,6 +3,9 @@
 
 #include "AuraAttributeSet.h"
 
-
+UAuraAttributeSet::UAuraAttributeSet()
+{
+		
+}
 
 

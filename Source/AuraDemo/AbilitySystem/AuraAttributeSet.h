@@ -14,7 +14,10 @@ class AURADEMO_API UAuraAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+	UAuraAttributeSet();
+
+	FGameplayAttributeData Health;
+	FGameplayAttributeData MaxHealth;
 	
 };
